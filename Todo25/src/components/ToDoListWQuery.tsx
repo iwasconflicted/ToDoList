@@ -1,37 +1,33 @@
-import { useQuery } from "@tanstack/react-query"
-import axios from "axios"
-import { useState, useEffect } from "react"
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
-interface ToDo{
-    id: number
-    title: string
-    completed: boolean
+interface Todo {
+  id: number;
+  title: string;
+  completed: boolean;
 }
-
 
 const ToDoListWQuery = () => {
+  const fetchTodos = () =>
+    axios
+      .get<Todo[]>("https://jsonplaceholder.typicode.com/todos")
+      .then((res) => res.data)
+      
 
-      const fetchTodos = () =>
-
-              axios
-              .get<ToDo[]>("https://jsonplaceholder.typicode.com/todos")
-              .then((res) => res.data)
-              
-
-            const {data: todos, error, isLoading} = useQuery<ToDo[],Error> ({
-                queryKey: ["todos"],
-                queryFn: fetchTodos
-              })
-
+  const { data: todos,error,isLoading } = useQuery<Todo[],Error>({
+    queryKey: ["todos"],
+    queryFn: fetchTodos,
+  });
+  
   return (
     <>
-    {isLoading ? <p>Loading....</p> :null}
+    {isLoading ? <p>Loading......</p> :null}
     {error ? <p>{error.message}:</p> :null}
-        {todos?.map((todo) => {
-            <li key={todo.id}>{todo.title}</li>
-        })}
+      {todos?.map((todo) => (
+        <li key={todo.id}>{todo.title}</li>
+      ))}
     </>
-  )
-}
+  );
+};
 
-export default ToDoListWQuery
+export default ToDoListWQuery;

@@ -1,6 +1,7 @@
 import ToDoList from "./components/ToDoList"
 import ToDoListWQuery from "./components/ToDoListWQuery"
 import ToDoListWQueryHook from "./components/ToDoListWQueryHook"
+import ToDoListWQueryHookSelect from "./components/ToDoListWQueryHookSelect"
 
 
 const App = () => {
@@ -12,7 +13,9 @@ const App = () => {
 
       {/* <ToDoListWQuery/> */}
 
-     <ToDoListWQueryHook/>
+     {/* <ToDoListWQueryHook/> */}
+
+     <ToDoListWQueryHookSelect/>
     </>
   )
 }
