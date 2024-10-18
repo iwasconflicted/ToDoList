@@ -1,5 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import ApiClient from "../services/apiClient"
+import { CACHE_KEY_TOOLS } from "../constants";
+
+
+const apiClient = new ApiClient<ToDo>('todos/')
+
 
 interface ToDo{
     userId: number
@@ -8,24 +13,18 @@ interface ToDo{
     completed: boolean
 }
 
-const useToDos = (userId: number | undefined) =>
+// interface TodoQuery {
+//     page: number
+//     pageSize: number
+// }
+
+const useToDos = () =>
 {
-    const fetchTodos = () =>
-        axios
-        .get<ToDo[]>("https://jsonplaceholder.typicode.com/todos",{
-            params : {
-                userId
-            }
-        })
-            
-        .then((res) => res.data)
-
-
-
+    
     return useQuery<ToDo[],Error> ({
-            queryKey: userId ? ["users", userId, "todos"]: ["todos"],
-            queryFn: fetchTodos,
-            staleTime: 10 * 1000 //
+            queryKey: CACHE_KEY_TOOLS,
+            queryFn: apiClient.getAll,
+            staleTime: 10 * 1000 // stale to 10 sec
           })
 
 }
